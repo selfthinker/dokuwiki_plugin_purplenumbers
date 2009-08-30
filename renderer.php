@@ -66,11 +66,11 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
     }
 
     function preformatted($text) {
-        $this->doc .= '<pre class="code"'.$this->_getID(1,1).'>' . trim($this->_xmlEntities($text)) . $this->_getLink(). '</pre>'. DOKU_LF;
+        $this->doc .= '<pre class="code"'.$this->_getID(1,1).'>' . trim($this->_xmlEntities($text),"\n\r") . $this->_getLink(). '</pre>'. DOKU_LF;
     }
 
     function file($text) {
-        $this->doc .= '<pre class="file"'.$this->_getID(1,1).'>' . trim($this->_xmlEntities($text)). $this->_getLink(). '</pre>'. DOKU_LF;
+        $this->doc .= '<pre class="file"'.$this->_getID(1,1).'>' . trim($this->_xmlEntities($text),"\n\r"). $this->_getLink(). '</pre>'. DOKU_LF;
     }
 
     function table_open($maxcols = NULL, $numrows = NULL){
@@ -93,7 +93,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
           ob_end_clean();
         } elseif($wrapper != 'code') {
             $code  = '<'.$wrapper.$this->_getID(1,1).' class="code php">';
-            $code .= p_xhtml_cached_geshi($text, 'php', false);
+            $code .= trim(p_xhtml_cached_geshi($text, 'php', false),"\n\r");
             $code .= $this->_getLink();
             $code .= '</'.$wrapper.'>';
             $this->doc .= $code;
@@ -109,7 +109,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
           $this->doc .= $text;
         } elseif($wrapper != 'code') {
             $code  = '<'.$wrapper.$this->_getID(1,1).' class="code html4strict">';
-            $code .= p_xhtml_cached_geshi($text, 'html4strict', false);
+            $code .= trim(p_xhtml_cached_geshi($text, 'html4strict', false),"\n\r");
             $code .= $this->_getLink();
             $code .= '</'.$wrapper.'>';
             $this->doc .= $code;
@@ -125,7 +125,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
             $this->preformatted($text);
         } else {
             $code  = '<pre'.$this->_getID(1,1).' class="code '.$language.'">';
-            $code .= p_xhtml_cached_geshi($text, $language, false);
+            $code .= trim(p_xhtml_cached_geshi($text, $language, false),"\n\r");
             $code .= $this->_getLink();
             $code .= '</pre>';
             $this->doc .= $code;
