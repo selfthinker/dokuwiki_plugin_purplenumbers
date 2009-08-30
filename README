@@ -1,0 +1,6 @@
+author  Anika Henke
+email   anika@selfthinker.org
+date    2009-06-21
+name    Purple Numbers plugin
+desc    Adds "Purple Numbers" (granular IDs) to every block level element.
+url     http://dokuwiki.org/plugin:purplenumbers
