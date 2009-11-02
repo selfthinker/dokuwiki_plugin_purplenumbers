@@ -55,6 +55,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
 
     function p_close() {
         $this->doc .= DOKU_LF.$this->_getLink().'</p>'.DOKU_LF;
+        if (preg_match('/<p[^>]*>\s*<!--PN-->.*?(?:<\/p>)$/',$this->doc)) $this->PNitemCount--;
     }
 
     function listitem_open($level) {
@@ -135,7 +136,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
 
     /**
      * Builds Purple Number ID.
-     * 
+     *
      * $setCount: increases (1) or resets (2) $PNitemCount
      * $wrap: wrap output in 'id=""'
      * $noprefix: lets you get the current ID without its prefix
@@ -181,8 +182,8 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
 
     /**
      * Creates a link to the current Purple Number ID.
-     * 
-     * $outside: puts a p.pnlink around the link, useful if 
+     *
+     * $outside: puts a p.pnlink around the link, useful if
      *     the link cannot be inside its corresponding element (e.g. tables)
      */
     function _getLink($outside=0) {
