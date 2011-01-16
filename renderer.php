@@ -204,11 +204,12 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
      *   (by configuration settings 'restrictionNS' and 'restrictionType').
      */
     function _displayPN() {
+        global $ID;
         global $ACT;
+        if (!page_exists($ID)) return false;
         if ($ACT != 'show') return false;
 
         if ($this->getConf('restrictionNS')) {
-            global $ID;
             $curRootNS = substr($ID, 0, strpos($ID,':'));
             $restrictionNS = explode(',', $this->getConf('restrictionNS'));
             $restrictionType = $this->getConf('restrictionType');
