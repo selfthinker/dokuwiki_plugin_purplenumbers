@@ -43,7 +43,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
 
         if ($this->_displayPN()) {
             $linkText = $this->getConf('linkText') ? $this->_getID() : '§';
-            $link = ' <a href="#'.$this->_getID($this->getConf('numbering')?2:1).'" id="'.$this->_getID();
+            $link = '&nbsp;<a href="#'.$this->_getID($this->getConf('numbering')?2:1).'" id="'.$this->_getID();
             $link .= '" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
             $this->doc = preg_replace('/<\/a>(<\/h[1-5]>)$/','</a> '.$link.'\\1',$this->doc);
         }
@@ -54,7 +54,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
     }
 
     function p_close() {
-        $this->doc .= DOKU_LF.$this->_getLink().'</p>'.DOKU_LF;
+        $this->doc .= '&nbsp;'.$this->_getLink().'</p>'.DOKU_LF;
         if (preg_match('/<p[^>]*>\s*<!--PN-->.*?(?:<\/p>)$/',$this->doc)) $this->PNitemCount--;
     }
 
