@@ -44,10 +44,12 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         if ($this->_displayPN()) {
             $pnid = $this->_getID($this->getConf('numbering')?2:1);
             $linkText = $this->getConf('linkText') ? $pnid : '§';
+
             $link = '&nbsp;<a href="#'.$pnid.'" id="'.$pnid;
             $link .= '" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
             $link .= $this->_getAnnotationLink();
-            $this->doc = preg_replace('/<\/a>(<\/h[1-5]>)$/','</a> '.$link.'\\1',$this->doc);
+
+            $this->doc = preg_replace('/<\/a>(<\/h[1-5]>)$/','</a>'.$link.'\\1',$this->doc);
         }
     }
 
@@ -56,7 +58,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
     }
 
     function p_close() {
-        $this->doc .= '&nbsp;'.$this->_getLink().'</p>'.DOKU_LF;
+        $this->doc .= $this->_getLink().'</p>'.DOKU_LF;
         if (preg_match('/<p[^>]*>\s*<!--PN-->.*?(?:<\/p>)$/',$this->doc)) $this->PNitemCount--;
     }
 
@@ -69,11 +71,15 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
     }
 
     function preformatted($text) {
-        $this->doc .= '<pre class="code"'.$this->_getID(1,1).'>' . trim($this->_xmlEntities($text),"\n\r") . $this->_getLink(). '</pre>'. DOKU_LF;
+        $this->doc .= '<pre class="code"'.$this->_getID(1,1).'>'.
+                      trim($this->_xmlEntities($text),"\n\r").
+                      $this->_getLink().'</pre>'.DOKU_LF;
     }
 
     function file($text) {
-        $this->doc .= '<pre class="file"'.$this->_getID(1,1).'>' . trim($this->_xmlEntities($text),"\n\r"). $this->_getLink(). '</pre>'. DOKU_LF;
+        $this->doc .= '<pre class="file"'.$this->_getID(1,1).'>'.
+                      trim($this->_xmlEntities($text),"\n\r").
+                      $this->_getLink().'</pre>'.DOKU_LF;
     }
 
     function table_open($maxcols = NULL, $numrows = NULL){
@@ -109,7 +115,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         global $conf;
 
         if($conf['htmlok']){
-          $this->doc .= $text;
+            $this->doc .= $text;
         } elseif($wrapper != 'code') {
             $code  = '<'.$wrapper.$this->_getID(1,1).' class="code html4strict">';
             $code .= trim(p_xhtml_cached_geshi($text, 'html4strict', false),"\n\r");
@@ -203,12 +209,15 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
     function _getLink($outside=0) {
         if ($this->_displayPN()) {
             $linkText = $this->getConf('linkText') ? $this->_getID() : '¶';
-            $pnlink = '<a href="#'.$this->_getID().'" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
+            $sep = $outside ? '' : '&nbsp;';
+
+            $pnlink = $sep.'<a href="#'.$this->_getID().'" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
             $pnlink .= $this->_getAnnotationLink();
+
             if ($outside) {
                 return '<p class="pnlink">'.$pnlink.'</p>';
             }
-            return ' <!--PN-->'.$pnlink;
+            return '<!--PN-->'.$pnlink;
             // that <!--PN--> comment is added to be able to delete empty paragraphs in document_end()
         }
         return '';
@@ -239,7 +248,9 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
                    );
             // in case linkText is only a pilcrow, only show the icon
             $onlyIcon = $this->getConf('linkText') ? '' : 'onlyIcon';
-            return ' <span class="pn '.$onlyIcon.'">'.
+            $sep = $onlyIcon ? '&nbsp;' : ' ';
+
+            return $sep.'<span class="pn '.$onlyIcon.'">'.
                    html_wikilink($aID,$this->getLang('comment')).
                    '</span>';
         }
