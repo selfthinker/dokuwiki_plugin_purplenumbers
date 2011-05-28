@@ -1,0 +1,5 @@
+
+.dokuwiki a.pn,
+.dokuwiki .pnlink {
+    display: none;
+}
