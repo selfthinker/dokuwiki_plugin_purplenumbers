@@ -42,9 +42,11 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         parent::header($text, $level, $pos);
 
         if ($this->_displayPN()) {
-            $linkText = $this->getConf('linkText') ? $this->_getID() : '§';
-            $link = '&nbsp;<a href="#'.$this->_getID($this->getConf('numbering')?2:1).'" id="'.$this->_getID();
+            $pnid = $this->_getID($this->getConf('numbering')?2:1);
+            $linkText = $this->getConf('linkText') ? $pnid : '§';
+            $link = '&nbsp;<a href="#'.$pnid.'" id="'.$pnid;
             $link .= '" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
+            $link .= $this->_getAnnotationLink();
             $this->doc = preg_replace('/<\/a>(<\/h[1-5]>)$/','</a> '.$link.'\\1',$this->doc);
         }
     }
@@ -140,9 +142,14 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
      * $setCount: increases (1) or resets (2) $PNitemCount
      * $wrap: wrap output in 'id=""'
      * $noprefix: lets you get the current ID without its prefix
+     * $internalID: clean ID, if it needs to be used as an internal ID
      */
-    function _getID($setCount=0, $wrap=0, $noprefix=0) {
+    function _getID($setCount=0, $wrap=0, $noprefix=0, $internalID=0) {
         if ($this->_displayPN()) {
+
+            if (!$internalID) {
+                $internalID = $this->getConf('internalID');
+            }
 
             if ($setCount == 1) {
                 //increase for each new paragraph, etc
@@ -175,10 +182,10 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
             }
 
             // if the ID should be re-usable as an anchor in an internal link
-            if ($this->getConf('internalID')) {
+            if ($internalID) {
                 // sectionID() will strip out ':' and '.'
                 $out = str_replace(array(':','.'), array('-','_'), $out);
-                $out = sectionID($out, $check=false);
+                $out = cleanID($out);
             }
 
             if ($wrap) return ' id="'.$out.'"';
@@ -197,11 +204,44 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         if ($this->_displayPN()) {
             $linkText = $this->getConf('linkText') ? $this->_getID() : '¶';
             $pnlink = '<a href="#'.$this->_getID().'" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
+            $pnlink .= $this->_getAnnotationLink();
             if ($outside) {
                 return '<p class="pnlink">'.$pnlink.'</p>';
             }
             return ' <!--PN-->'.$pnlink;
             // that <!--PN--> comment is added to be able to delete empty paragraphs in document_end()
+        }
+        return '';
+    }
+
+    /**
+     * Creates a link to an annotation page per Purple Number.
+     */
+    function _getAnnotationLink() {
+        $annotationPage = $this->getConf('annotationPage');
+        if ($annotationPage) {
+            global $ID;
+            // resolve placeholders
+            $aID = str_replace(
+                       array(
+                          '@PN@',
+                          '@PNID@',
+                          '@ID@',
+                          '@PAGE@'
+                       ),
+                       array(
+                           $this->_getID(0,0,1,1),
+                           $this->_getID(0,0,0,1),
+                           $ID,
+                           noNSorNS($ID)
+                       ),
+                       $annotationPage
+                   );
+            // in case linkText is only a pilcrow, only show the icon
+            $onlyIcon = $this->getConf('linkText') ? '' : 'onlyIcon';
+            return ' <span class="pn '.$onlyIcon.'">'.
+                   html_wikilink($aID,$this->getLang('comment')).
+                   '</span>';
         }
         return '';
     }

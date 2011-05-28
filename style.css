@@ -1,9 +1,12 @@
 
 /* show only on hover */
-.dokuwiki a.pn {
+.dokuwiki a.pn,
+.dokuwiki span.pn a {
     visibility: hidden;
-    color: __text_neu__ !important;
     display: inline;
+}
+.dokuwiki a.pn {
+    color: __text_neu__ !important;
 }
 .dokuwiki h1:hover a.pn,
 .dokuwiki h2:hover a.pn,
@@ -13,18 +16,42 @@
 .dokuwiki p:hover a.pn,
 .dokuwiki li:hover a.pn,
 .dokuwiki pre:hover a.pn,
-.dokuwiki table.inline:hover + .pnlink a.pn {
+.dokuwiki table.inline:hover + .pnlink a.pn,
+.dokuwiki h1:hover span.pn a,
+.dokuwiki h2:hover span.pn a,
+.dokuwiki h3:hover span.pn a,
+.dokuwiki h4:hover span.pn a,
+.dokuwiki h5:hover span.pn a,
+.dokuwiki p:hover span.pn a,
+.dokuwiki li:hover span.pn a,
+.dokuwiki pre:hover span.pn a,
+.dokuwiki table.inline:hover + .pnlink span.pn a {
     visibility: visible !important;
 }
 /* nested lists */
-.dokuwiki li:hover li a.pn {
+.dokuwiki li:hover li a.pn,
+.dokuwiki li:hover li span.pn a {
     visibility: hidden !important;
 }
-.dokuwiki li li:hover a.pn {
+.dokuwiki li li:hover a.pn,
+.dokuwiki li li:hover span.pn a {
     visibility: visible !important;
 }
 
 /* if PN needs to be outside of its section */
 .dokuwiki .pnlink {
     margin: -1.0em 0 0 0;
+}
+
+/* link to comment page per PN */
+.dokuwiki span.pn a {
+    padding-left: 20px;
+    background: transparent url(images/comment_edit.png) no-repeat 4px center;
+}
+.dokuwiki span.pn a.wikilink2 {
+    background-image: url(images/comment_add.png);
+}
+.dokuwiki span.pn.onlyIcon a {
+    display: inline-block;
+    text-indent: -99999px;
 }

@@ -18,3 +18,4 @@ $lang['restrictionNS']         = 'restrict usage of plugin to these (comma separ
 $lang['restrictionType']       = 'restriction type, specifies if pages under the specified namespaces shall be included or excluded for the display of Purple Numbers';
   $lang['restrictionType_o_0'] = 'exclude';
   $lang['restrictionType_o_1'] = 'include';
+$lang['annotationPage']        = 'pattern for links to annotation pages (leave empty to disable)';

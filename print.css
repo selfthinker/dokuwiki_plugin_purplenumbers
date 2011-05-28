@@ -1,5 +1,6 @@
 
 .dokuwiki a.pn,
+.dokuwiki span.pn a,
 .dokuwiki .pnlink {
     display: none;
 }

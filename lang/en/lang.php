@@ -6,3 +6,4 @@
  */
 
 $lang['sectionlink'] = 'link to this section';
+$lang['comment']     = 'comment';
