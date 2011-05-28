@@ -2,7 +2,8 @@
 /* show only on hover */
 .dokuwiki a.pn {
     visibility: hidden;
-    color: __text_other__ !important;
+    color: __text_neu__ !important;
+    display: inline;
 }
 .dokuwiki h1:hover a.pn,
 .dokuwiki h2:hover a.pn,
