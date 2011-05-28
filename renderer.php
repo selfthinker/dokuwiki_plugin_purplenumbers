@@ -174,6 +174,13 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
                 $out = $prefix.$this->PNitemCount;
             }
 
+            // if the ID should be re-usable as an anchor in an internal link
+            if ($this->getConf('internalID')) {
+                // sectionID() will strip out ':' and '.'
+                $out = str_replace(array(':','.'), array('-','_'), $out);
+                $out = sectionID($out, $check=false);
+            }
+
             if ($wrap) return ' id="'.$out.'"';
             return $out;
         }

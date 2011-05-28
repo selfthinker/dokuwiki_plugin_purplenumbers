@@ -10,6 +10,7 @@ $lang['numbering']             = 'type of ID numbering';
 $lang['uniqueness']            = 'uniqueness of IDs';
   $lang['uniqueness_o_0']      = 'page-wide';
   $lang['uniqueness_o_1']      = 'site-wide';
+$lang['internalID']            = 'create IDs that can be used as internal anchors? (Attention: might not be unique)';
 $lang['linkText']              = 'link text';
   $lang['linkText_o_0']        = 'paragraph/section sign';
   $lang['linkText_o_1']        = 'ID';
