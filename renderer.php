@@ -16,10 +16,6 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
 
     var $PNitemCount = 0;
 
-    function getInfo(){
-        return confToHash(dirname(__FILE__).'/README');
-    }
-
     function getFormat(){
         return 'xhtml';
     }
