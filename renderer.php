@@ -70,14 +70,8 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         $this->doc .= $this->_getLink().'</div>'.DOKU_LF;
     }
 
-    function preformatted($text) {
-        $this->doc .= '<pre class="code"'.$this->_getID(1,1).'>'.
-                      trim($this->_xmlEntities($text),"\n\r").
-                      $this->_getLink().'</pre>'.DOKU_LF;
-    }
-
-    function file($text) {
-        $this->doc .= '<pre class="file"'.$this->_getID(1,1).'>'.
+    function preformatted($text, $type='code') {
+        $this->doc .= '<pre class="'.$type.'"'.$this->_getID(1,1).'>'.
                       trim($this->_xmlEntities($text),"\n\r").
                       $this->_getLink().'</pre>'.DOKU_LF;
     }
@@ -127,18 +121,45 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         }
     }
 
-    function code($text, $language = NULL) {
+    function _highlight($type, $text, $language=null, $filename=null) {
         global $conf;
+        global $ID;
+        global $lang;
+
+        if($filename){
+            list($ext) = mimetype($filename,false);
+            $class = preg_replace('/[^_\-a-z0-9]+/i','_',$ext);
+            $class = 'mediafile mf_'.$class;
+
+            $this->doc .= '<dl class="'.$type.'">'.DOKU_LF;
+            $this->doc .= '<dt><a href="'.exportlink($ID,'code',array('codeblock'=>$this->_codeblock)).'" title="'.$lang['download'].'" class="'.$class.'">';
+            $this->doc .= hsc($filename);
+            $this->doc .= '</a></dt>'.DOKU_LF.'<dd>';
+        }
+
+        if ($text{0} == "\n") {
+            $text = substr($text, 1);
+        }
+        if (substr($text, -1) == "\n") {
+            $text = substr($text, 0, -1);
+        }
 
         if ( is_null($language) ) {
-            $this->preformatted($text);
+            $this->preformatted($text, $type);
         } else {
-            $code  = '<pre'.$this->_getID(1,1).' class="code '.$language.'">';
-            $code .= trim(p_xhtml_cached_geshi($text, $language, false),"\n\r");
-            $code .= $this->_getLink();
-            $code .= '</pre>';
-            $this->doc .= $code;
+            $class = 'code';
+            if($type != 'code') $class .= ' '.$type;
+
+            $this->doc .= "<pre class=\"$class $language\" ".$this->_getID(1,1).">".
+                          p_xhtml_cached_geshi($text, $language, '').
+                          $this->_getLink().'</pre>'.DOKU_LF;
         }
+
+        if($filename){
+            $this->doc .= '</dd></dl>'.DOKU_LF;
+        }
+
+        $this->_codeblock++;
     }
 
 
