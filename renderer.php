@@ -279,9 +279,11 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
      *   (by configuration settings 'restrictionNS' and 'restrictionType').
      */
     function _displayPN() {
-        global $ID;
-        global $ACT;
+        global $ID, $INFO, $ACT;
+
         if (!page_exists($ID)) return false;
+        // only show PNs in the main content, not in included pages (like sidebars)
+        if ($ID != $INFO['id']) return false;
         if ($ACT != 'show') return false;
 
         if ($this->getConf('restrictionNS')) {
