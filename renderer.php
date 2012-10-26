@@ -45,7 +45,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
             $link .= '" class="pn" title="'.$this->getLang('sectionlink').'">'.$linkText.'</a>';
             $link .= $this->_getAnnotationLink();
 
-            $this->doc = preg_replace('/<\/a>(<\/h[1-5]>)$/','</a>'.$link.'\\1',$this->doc);
+            $this->doc = preg_replace('/(<\/h[1-5]>)$/', $link.'\\1', $this->doc);
         }
     }
 
