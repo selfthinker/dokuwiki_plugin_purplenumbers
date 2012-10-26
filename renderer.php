@@ -74,11 +74,11 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
 
     function table_open($maxcols = NULL, $numrows = NULL){
         $this->_counter['row_counter'] = 0;
-        $this->doc .= '<table class="inline"'.$this->_getID(1,1).'>'.DOKU_LF;
+        $this->doc .= '<div class="table"><table class="inline"'.$this->_getID(1,1).'>'.DOKU_LF;
     }
 
     function table_close(){
-        $this->doc .= '</table>'.$this->_getLink(1).DOKU_LF;
+        $this->doc .= '</table></div>'.$this->_getLink(1).DOKU_LF;
     }
 
 
