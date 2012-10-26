@@ -50,6 +50,7 @@
 }
 .dokuwiki span.pn a.wikilink2 {
     background-image: url(images/comment_add.png);
+    border-bottom-width: 0;
 }
 .dokuwiki span.pn.onlyIcon a {
     display: inline-block;
