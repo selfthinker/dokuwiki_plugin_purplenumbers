@@ -50,12 +50,26 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
     }
 
     function p_open() {
+        $eventdata = array(
+            'doc' => &$this->doc,
+            'pid' => $this->_getID()
+        );
+        // note: this will also be triggered by empty paragraphs
+        trigger_event('PLUGIN_PURPLENUMBERS_P_OPENED', $eventdata);
         $this->doc .= DOKU_LF.'<p'.$this->_getID(1,1).'>'.DOKU_LF;
     }
 
     function p_close() {
         $this->doc .= $this->_getLink().'</p>'.DOKU_LF;
-        if (preg_match('/<p[^>]*>\s*<!--PN-->.*?(?:<\/p>)$/',$this->doc)) $this->PNitemCount--;
+        if (preg_match('/<p[^>]*>\s*<!--PN-->.*?(?:<\/p>)$/',$this->doc)) {
+            $this->PNitemCount--;
+        } else {
+            $eventdata = array(
+                'doc' => &$this->doc,
+                'pid' => $this->_getID()
+            );
+            trigger_event('PLUGIN_PURPLENUMBERS_P_CLOSED', $eventdata);
+        }
     }
 
     function listitem_open($level) {
