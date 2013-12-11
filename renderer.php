@@ -86,7 +86,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
                       $this->_getLink().'</pre>'.DOKU_LF;
     }
 
-    function table_open($maxcols = NULL, $numrows = NULL){
+    function table_open($maxcols = null, $numrows = null) {
         $this->_counter['row_counter'] = 0;
         $this->doc .= '<div class="table"><table class="inline"'.$this->_getID(1,1).'>'.DOKU_LF;
     }
@@ -95,15 +95,14 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         $this->doc .= '</table></div>'.$this->_getLink(1).DOKU_LF;
     }
 
-
     function php($text, $wrapper='code') {
         global $conf;
 
-        if($conf['phpok']){
-          ob_start();
-          eval($text);
-          $this->doc .= ob_get_contents();
-          ob_end_clean();
+        if($conf['phpok']) {
+            ob_start();
+            eval($text);
+            $this->doc .= ob_get_contents();
+            ob_end_clean();
         } elseif($wrapper != 'code') {
             $code  = '<'.$wrapper.$this->_getID(1,1).' class="code php">';
             $code .= trim(p_xhtml_cached_geshi($text, 'php', false),"\n\r");
