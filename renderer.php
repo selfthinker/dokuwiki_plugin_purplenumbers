@@ -34,7 +34,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         $this->doc = preg_replace('/<!--PN-->/','',$this->doc);
     }
 
-    function header($text, $level, $pos) {
+    function header($text, $level, $pos, $returnonly = false) {
         parent::header($text, $level, $pos);
 
         if ($this->_displayPN()) {
@@ -72,7 +72,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         }
     }
 
-    function listitem_open($level) {
+    function listitem_open($level, $node = false) {
         $this->doc .= '<li class="level'.$level.'"'.$this->_getID(1,1).'>';
     }
 
@@ -86,12 +86,12 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
                       $this->_getLink().'</pre>'.DOKU_LF;
     }
 
-    function table_open($maxcols = null, $numrows = null) {
+    function table_open($maxcols = null, $numrows = null, $pos = null, $classes = null) {
         $this->_counter['row_counter'] = 0;
         $this->doc .= '<div class="table"><table class="inline"'.$this->_getID(1,1).'>'.DOKU_LF;
     }
 
-    function table_close(){
+    function table_close($pos = null){
         $this->doc .= '</table></div>'.$this->_getLink(1).DOKU_LF;
     }
 
@@ -130,7 +130,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
         }
     }
 
-    function _highlight($type, $text, $language=null, $filename=null) {
+    function _highlight($type, $text, $language=null, $filename=null, $options = null) {
         global $conf;
         global $ID;
         global $lang;
@@ -146,7 +146,7 @@ class renderer_plugin_purplenumbers extends Doku_Renderer_xhtml {
             $this->doc .= '</a></dt>'.DOKU_LF.'<dd>';
         }
 
-        if ($text{0} == "\n") {
+        if ($text[0] == "\n") {
             $text = substr($text, 1);
         }
         if (substr($text, -1) == "\n") {
