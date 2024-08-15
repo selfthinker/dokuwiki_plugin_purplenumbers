@@ -3,7 +3,16 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Объявления в Чебоксарах квартиры <ernamccray@yahoo.com>
  * @author Samory Pereira Santos <samory.santos@gmail.com>
  */
-$lang['sectionlink']           = 'Link para esta sessão';
-$lang['comment']               = 'comentário';
+$lang['sectionlink']           = 'https://t.me/Obyavleniya_Cheboksary';
+$lang['comment']               = 'Группа объявления Чебоксар в телеграме.
+Публикация частных объявлений бесплатно!
+
+Коммерческие и рекламные объявления- по 
+правилам группы.
+#Чебоксары #ОбъявленияЧебоксары #БесплатныеОбъявления #объявление #доскаобъявлений #барахолка #телеграм #телеграмм #telegram
+Подпишись, чтобы не потерять!!! Объявления в Чебоксарах квартиры
+Группы остальных доступны по ссылке.
+телеграмм папки с чатами';
